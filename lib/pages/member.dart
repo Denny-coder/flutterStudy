@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import '../provide/counter.dart';
 import '../routers/application.dart';
+import 'package:fluro/fluro.dart';
 
 class MemberPage extends StatelessWidget {
+  final String goodsId;
+  MemberPage(this.goodsId);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,13 +17,18 @@ class MemberPage extends StatelessWidget {
                 semanticLabel: 'Close',
               ),
               onPressed: () {
-               Application.router.navigateTo(context, "/cart");
+                Application.router.navigateTo(context, "/cart?id=cart",
+                    transition: TransitionType.nativeModal);
               }),
           title: const Text('Detail'),
         ),
         body: Center(
           child: Column(
-            children: <Widget>[Number(), MyButtonToMember(), MyButton()],
+            children: <Widget>[
+              Number(),
+              MyButton(),
+              MyButtonToMember(),
+            ],
           ),
         ));
   }
@@ -62,7 +70,9 @@ class MyButtonToMember extends StatelessWidget {
     return Container(
         child: RaisedButton(
       onPressed: () {
-        Application.router.navigateTo(context, "/cart");
+        Application.router.navigateTo(context, "/cart?id=cart",
+            transition: TransitionType.fadeIn,
+            transitionDuration: Duration(milliseconds: 3000));
       },
       child: Text('跳转cart'),
     ));

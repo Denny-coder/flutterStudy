@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import './routers/routes.dart';
 import './routers/application.dart';
-
 void main() {
   var counter = Counter();
   var providers = Providers();
@@ -23,10 +22,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: '百姓生活+',
           debugShowCheckedModeBanner: false,
+          //----------------主要代码start
           onGenerateRoute: Application.router.generator,
-          theme: ThemeData(primaryColor: Colors.pink),
-          home: CartPage()),
+          //----------------主要代码end
+          theme: ThemeData(
+            primaryColor: Colors.pink,
+            platform: TargetPlatform.iOS,
+          ),
+          home: CartPage('Cart')),
     );
   }
-}
 
+
+}

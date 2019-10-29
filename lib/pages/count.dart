@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provide/provide.dart';
 import '../provide/counter.dart';
 import '../routers/application.dart';
+import 'package:fluro/fluro.dart';
 
 class CartPage extends StatefulWidget {
+  final String goodsId;
+  CartPage(this.goodsId);
   @override
   _CartPage createState() => new _CartPage();
 }
@@ -68,7 +71,8 @@ class _CartPage extends State<CartPage> {
                   semanticLabel: 'Close',
                 ),
                 onPressed: () {
-                  Application.router.navigateTo(context, "/detail");
+                  Application.router.navigateTo(context, "/detail?id=detail",
+                      transition: TransitionType.fadeIn);
                 }),
             title: const Text('意见反馈'),
             centerTitle: true),
@@ -88,7 +92,11 @@ class _CartPage extends State<CartPage> {
                   children: _tabbarWidget(_tabBarData),
                 ),
               ),
-              _tabbarView[_currenIndex]
+              _tabbarView[_currenIndex],
+              Number(),
+              MyButton(),
+              MyButtonToMember(),
+              MyButtonToHttp(),
             ])));
   }
 }
@@ -129,9 +137,24 @@ class MyButtonToMember extends StatelessWidget {
     return Container(
         child: RaisedButton(
       onPressed: () {
-        Application.router.navigateTo(context, "/detail");
+        Application.router.navigateTo(context, "/detail?id=detail",
+            transition: TransitionType.material);
       },
       child: Text('跳转detail'),
+    ));
+  }
+}
+
+class MyButtonToHttp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: RaisedButton(
+      onPressed: () {
+        Application.router
+            .navigateTo(context, "/http", transition: TransitionType.material);
+      },
+      child: Text('跳转http'),
     ));
   }
 }
