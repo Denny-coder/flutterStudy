@@ -7,6 +7,8 @@ class Routes {
   static String detailsPage = '/detail';
   static String cartPage = '/cart';
   static String httpDemo = '/http';
+  static String approveStep = '/approveStep';
+  static String loginPageStep = '/login';
   static void configureRoutes(Router router) {
     router.notFoundHandler = new Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -16,5 +18,7 @@ class Routes {
     router.define(detailsPage, handler: detailsHandler);
     router.define(cartPage, handler: cartHandler);
     router.define(httpDemo, handler: httpDemoHandler);
+    router.define(approveStep, handler: approveStepHandler);
+    router.define(loginPageStep, handler: loginPageHandler);
   }
 }

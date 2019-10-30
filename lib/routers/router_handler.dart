@@ -3,6 +3,8 @@ import 'package:fluro/fluro.dart';
 import '../pages/member.dart';
 import '../pages/count.dart';
 import '../pages/http_demo.dart';
+import '../pages/approve_step.dart';
+import '../pages/login/login.dart';
 
 Handler detailsHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -19,4 +21,12 @@ Handler cartHandler = Handler(
 Handler httpDemoHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
   return HttpDemo();
+});
+Handler approveStepHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return ApproveStep();
+});
+Handler loginPageHandler = Handler(
+    handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+  return LoginPage();
 });

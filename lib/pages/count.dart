@@ -97,6 +97,7 @@ class _CartPage extends State<CartPage> {
               MyButton(),
               MyButtonToMember(),
               MyButtonToHttp(),
+              MyButtonToStep(),
             ])));
   }
 }
@@ -155,6 +156,19 @@ class MyButtonToHttp extends StatelessWidget {
             .navigateTo(context, "/http", transition: TransitionType.material);
       },
       child: Text('跳转http'),
+    ));
+  }
+}
+class MyButtonToStep extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: RaisedButton(
+      onPressed: () {
+        Application.router
+            .navigateTo(context, "/approveStep", transition: TransitionType.material);
+      },
+      child: Text('跳转approveStep'),
     ));
   }
 }

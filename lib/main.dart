@@ -1,10 +1,12 @@
+import 'package:myfirstflutter/routers/router_handler.dart';
 import 'package:provide/provide.dart';
-import './provide/counter.dart';
-import './pages/count.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import './provide/counter.dart';
 import './routers/routes.dart';
 import './routers/application.dart';
+import './pages/login/login.dart';
+
 void main() {
   var counter = Counter();
   var providers = Providers();
@@ -29,9 +31,7 @@ class MyApp extends StatelessWidget {
             primaryColor: Colors.pink,
             platform: TargetPlatform.iOS,
           ),
-          home: CartPage('Cart')),
+          home: LoginPage()),
     );
   }
-
-
 }

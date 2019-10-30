@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
-import '../provide/counter.dart';
-import '../routers/application.dart';
 import 'package:fluro/fluro.dart';
+import 'package:provide/provide.dart';
+import '../routers/application.dart';
+import '../provide/counter.dart';
 
 class MemberPage extends StatelessWidget {
   final String goodsId;
@@ -11,16 +11,7 @@ class MemberPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back,
-                semanticLabel: 'Close',
-              ),
-              onPressed: () {
-                Application.router.navigateTo(context, "/cart?id=cart",
-                    transition: TransitionType.nativeModal);
-              }),
-          title: const Text('Detail'),
+          title: const Text('member'),
         ),
         body: Center(
           child: Column(
@@ -33,6 +24,8 @@ class MemberPage extends StatelessWidget {
         ));
   }
 }
+
+
 
 class Number extends StatelessWidget {
   @override
