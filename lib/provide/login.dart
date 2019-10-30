@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Login with ChangeNotifier {
-  String token;
-  String cookie;
+  String token='';
+  String cookie='';
 
   incrementToken(String token) {
     token = token;

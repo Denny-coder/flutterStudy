@@ -70,17 +70,17 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Provide<Login>(
-                builder: (context, child, counter) {
+                builder: (context, child, login) {
                   return Text(
-                    '${Login.token}',
+                    '${login.token}',
                     style: Theme.of(context).textTheme.display1,
                   );
                 },
               ),
               Provide<Login>(
-                builder: (context, child, counter) {
+                builder: (context, child, login) {
                   return Text(
-                    '${Login.cookie}',
+                    '${login.cookie}',
                     style: Theme.of(context).textTheme.display1,
                   );
                 },
