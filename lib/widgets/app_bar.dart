@@ -45,107 +45,122 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Material(
         color: _backgroundColor,
         child: SafeArea(
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    alignment: centerTitle.isEmpty
-                        ? Alignment.centerLeft
-                        : Alignment.center,
-                    width: double.infinity,
-                    child: Text(title.isEmpty ? centerTitle : title,
-                        style: TextStyle(
-                          fontSize: Dimens.font_sp18,
+          child: Container(
+            decoration: BoxDecoration(
+                //设置四周圆角 角度
+                //设置四周边框
+                border: new Border(
+                    bottom: BorderSide(width: 1, color: Colors.black12))),
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      alignment: centerTitle.isEmpty
+                          ? Alignment.centerLeft
+                          : Alignment.center,
+                      width: double.infinity,
+                      child: Text(title.isEmpty ? centerTitle : title,
+                          style: TextStyle(
+                            fontSize: Dimens.font_sp18,
+                            color: _overlayStyle == SystemUiOverlayStyle.light
+                                ? Colours.dark_text
+                                : Colours.text,
+                          )),
+                      padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                    )
+                  ],
+                ),
+                isBack
+                    ? IconButton(
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          Navigator.maybePop(context);
+                        },
+                        tooltip: 'Back',
+                        padding: const EdgeInsets.all(12.0),
+                        icon: Image.asset(
+                          backImg,
                           color: _overlayStyle == SystemUiOverlayStyle.light
                               ? Colours.dark_text
                               : Colours.text,
-                        )),
-                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
-                  )
-                ],
-              ),
-              isBack
-                  ? IconButton(
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        Navigator.maybePop(context);
-                      },
-                      tooltip: 'Back',
-                      padding: const EdgeInsets.all(12.0),
-                      icon: Image.asset(
-                        backImg,
-                        color: _overlayStyle == SystemUiOverlayStyle.light
-                            ? Colours.dark_text
-                            : Colours.text,
-                      ),
-                    )
-                  : Gaps.empty,
-              Positioned(
-                right: 5.0,
-                child: Theme(
-                  data: Theme.of(context).copyWith(
-                      buttonTheme: ButtonThemeData(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    minWidth: 60.0,
-                  )),
-                  child: actionName.isEmpty
-                      ? Container(
-                          height: 25,
-                          width: 60,
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                            //背景
-                            //设置四周圆角 角度
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25.0)),
-                            //设置四周边框
-                            border:
-                                new Border.all(width: 1, color: Colors.black38),
-                          ),
-                          child: Flex(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            mainAxisSize: MainAxisSize.max,
-                            direction: Axis.horizontal,
-                            children: <Widget>[
-                              GestureDetector(
-                                child: LoadAssetImage(
-                                  "bar/dian",
-                                  width: 12.0,
-                                  height: 12.0,
-                                  color: Colors.black38,
-                                ),
-                              ),
-                              Container(
-                                width: 1.0,
-                                height: 10.0,
-                                color: Colors.black38,
-                                padding: EdgeInsets.only(left: 20, right: 20),
-                              ),
-                              GestureDetector(
-                                child: LoadAssetImage(
-                                  "bar/circle",
-                                  width: 12.0,
-                                  height: 12.0,
-                                  color: Colors.black38,
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      : FlatButton(
-                          child: Text(actionName, key: const Key('actionName')),
-                          textColor: _overlayStyle == SystemUiOverlayStyle.light
-                              ? Colours.dark_text
-                              : Colours.text,
-                          highlightColor: Colors.transparent,
-                          onPressed: onPressed,
                         ),
+                      )
+                    : Gaps.empty,
+                Positioned(
+                  right: 5.0,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        buttonTheme: ButtonThemeData(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      minWidth: 60.0,
+                    )),
+                    child: actionName.isEmpty
+                        ? Container(
+                            height: 25,
+                            width: 60,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              //背景
+                              //设置四周圆角 角度
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25.0)),
+                              //设置四周边框
+                              border: new Border.all(
+                                  width: 1, color: Colors.black38),
+                            ),
+                            child: Flex(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              direction: Axis.horizontal,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    print(1);
+                                  },
+                                  child: LoadAssetImage(
+                                    "bar/dian",
+                                    width: 16.0,
+                                    height: 16.0,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Container(
+                                  width: 1.0,
+                                  height: 10.0,
+                                  color: Colors.black38,
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    print(2);
+                                  },
+                                  child: LoadAssetImage(
+                                    "bar/circle",
+                                    width: 12.0,
+                                    height: 12.0,
+                                    color: Colors.black,
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        : FlatButton(
+                            child:
+                                Text(actionName, key: const Key('actionName')),
+                            textColor:
+                                _overlayStyle == SystemUiOverlayStyle.light
+                                    ? Colours.dark_text
+                                    : Colours.text,
+                            highlightColor: Colors.transparent,
+                            onPressed: onPressed,
+                          ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

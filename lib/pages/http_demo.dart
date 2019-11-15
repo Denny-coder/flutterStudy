@@ -50,7 +50,7 @@ class _HttpDemoState extends State<HttpDemo> {
         "schoolnum": "",
         "pageSize": 5
       });
-      print(response.data['code']);
+      print(response.data['success']);
       if (response.data['code'] == 200) {
         for (dynamic data in response.data['result']) {
           RowData hotMovieData = RowData.fromJson(data);
