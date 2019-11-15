@@ -13,25 +13,21 @@ class MemberPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('member'),
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Number(),
-              MyButton(),
-              MyButtonToMember(),
-            ],
-          ),
-        ));
+        body: SingleChildScrollView(
+            child: Column(
+          children: <Widget>[
+            Number(),
+            MyButton(),
+            MyButtonToMember(),
+          ],
+        )));
   }
 }
-
-
 
 class Number extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 200),
       child: Provide<Counter>(
         builder: (context, child, counter) {
           return Text(
@@ -47,13 +43,14 @@ class Number extends StatelessWidget {
 class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: RaisedButton(
-      onPressed: () {
-        Provide.value<Counter>(context).increment();
-      },
-      child: Text('递增'),
-    ));
+    return Wrap(children: <Widget>[
+      RaisedButton(
+        onPressed: () {
+          Provide.value<Counter>(context).increment();
+        },
+        child: Text('递增'),
+      )
+    ]);
   }
 }
 
@@ -64,8 +61,7 @@ class MyButtonToMember extends StatelessWidget {
         child: RaisedButton(
       onPressed: () {
         Application.router.navigateTo(context, "/cart?id=cart",
-            transition: TransitionType.fadeIn,
-            transitionDuration: Duration(milliseconds: 3000));
+            transition: TransitionType.fadeIn);
       },
       child: Text('跳转cart'),
     ));

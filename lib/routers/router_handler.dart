@@ -4,7 +4,7 @@ import '../pages/member.dart';
 import '../pages/count.dart';
 import '../pages/http_demo.dart';
 import '../pages/approve_step.dart';
-import '../pages/login/login.dart';
+import '../pages/list/list.dart';
 
 Handler detailsHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -28,5 +28,5 @@ Handler approveStepHandler = Handler(
 });
 Handler loginPageHandler = Handler(
     handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-  return LoginPage();
+  return ListPage();
 });

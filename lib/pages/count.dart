@@ -3,6 +3,7 @@ import 'package:provide/provide.dart';
 import '../provide/counter.dart';
 import '../routers/application.dart';
 import 'package:fluro/fluro.dart';
+import '../provide/login.dart';
 
 class CartPage extends StatefulWidget {
   final String goodsId;
@@ -64,18 +65,7 @@ class _CartPage extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  semanticLabel: 'Close',
-                ),
-                onPressed: () {
-                  Application.router.navigateTo(context, "/detail?id=detail",
-                      transition: TransitionType.fadeIn);
-                }),
-            title: const Text('意见反馈'),
-            centerTitle: true),
+        appBar: AppBar(title: const Text('意见反馈'), centerTitle: true),
         body: Container(
             margin: EdgeInsets.only(top: 20, left: 20, right: 20),
             child: Column(children: [
@@ -94,6 +84,7 @@ class _CartPage extends State<CartPage> {
               ),
               _tabbarView[_currenIndex],
               Number(),
+              Token(),
               MyButton(),
               MyButtonToMember(),
               MyButtonToHttp(),
@@ -106,7 +97,6 @@ class Number extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 200),
       child: Provide<Counter>(
         builder: (context, child, counter) {
           return Text(
@@ -116,6 +106,24 @@ class Number extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class Token extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(child: SingleChildScrollView(
+      child: Provide<Login>(
+        builder: (context, child, login) {
+          return Text(
+            '1${login.token}',
+            overflow: TextOverflow.clip,
+            softWrap: false,
+            style: Theme.of(context).textTheme.display1,
+          );
+        },
+      ),
+    ));
   }
 }
 
@@ -159,14 +167,15 @@ class MyButtonToHttp extends StatelessWidget {
     ));
   }
 }
+
 class MyButtonToStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
         child: RaisedButton(
       onPressed: () {
-        Application.router
-            .navigateTo(context, "/approveStep", transition: TransitionType.material);
+        Application.router.navigateTo(context, "/approveStep",
+            transition: TransitionType.material);
       },
       child: Text('跳转approveStep'),
     ));

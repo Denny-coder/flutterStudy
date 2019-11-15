@@ -3,14 +3,17 @@ import 'package:provide/provide.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import './provide/counter.dart';
+import './provide/login.dart';
 import './routers/routes.dart';
 import './routers/application.dart';
-import './pages/login/login.dart';
+import './pages/list/list.dart';
 
 void main() {
   var counter = Counter();
+  var login = Login();
   var providers = Providers();
   providers..provide(Provider<Counter>.value(counter));
+  providers..provide(Provider<Login>.value(login));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 
@@ -28,10 +31,10 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: Application.router.generator,
           //----------------主要代码end
           theme: ThemeData(
-            primaryColor: Colors.pink,
+            primaryColor: Colors.white,
             platform: TargetPlatform.iOS,
           ),
-          home: LoginPage()),
+          home: ListPage()),
     );
   }
 }

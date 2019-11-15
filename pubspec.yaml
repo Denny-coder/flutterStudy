@@ -23,7 +23,10 @@ dependencies:
    git: git://github.com/theyakka/fluro.git
   flutter:
     sdk: flutter
-
+  # Dart 常用工具类库 https://github.com/Sky24n/common_utils
+  common_utils: ^1.1.3
+    # 图片缓存 https://github.com/renefloor/flutter_cached_network_image
+  cached_network_image: ^1.1.2+1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -44,7 +47,19 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/
+    - assets/data/
+    - assets/images/
+    - assets/images/home/
+    - assets/images/bar/
+    - assets/images/store/
+    - assets/images/state/
+    - assets/images/order/
+    - assets/images/order/dark/
+    - assets/images/login/
+    - assets/images/goods/
+    - assets/images/shop/
+    - assets/images/account/
+    - assets/images/statistic/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
