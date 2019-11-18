@@ -8,13 +8,15 @@ import './widget/product_item.dart';
 import 'package:fluro/fluro.dart';
 import 'dart:convert' as JSON;
 import 'package:myfirstflutter/widgets/my_refresh_list.dart';
+import '../data/product.dart';
 
 class ListPage extends StatefulWidget {
   @override
   _ListPageState createState() => _ListPageState();
 }
 
-class _ListPageState extends State<ListPage> with  SingleTickerProviderStateMixin  {
+class _ListPageState extends State<ListPage>
+    with SingleTickerProviderStateMixin {
   TextEditingController _controllerAccount = new TextEditingController();
   TextEditingController _controllerPassWord = new TextEditingController();
   List<ProductList> _tableData = new List<ProductList>();
@@ -51,6 +53,7 @@ class _ListPageState extends State<ListPage> with  SingleTickerProviderStateMixi
     CurvedAnimation _curvedAnimation =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
     _animation = new Tween(begin: 0.0, end: 1.1).animate(_curvedAnimation);
+    _refresh();
   }
 
   void login() async {
@@ -120,39 +123,25 @@ class _ListPageState extends State<ListPage> with  SingleTickerProviderStateMixi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
-          centerTitle: '资产处置',
-          // backgroundColor:Colors.blue,
-          isBack: false),
-      body: ProductItem(
-        img:
-            'https://iwork-img-test.oss-cn-beijing.aliyuncs.com/caifu/crm/house_info/20191105123355_287009.jpg?Expires=1889158421&OSSAccessKeyId=LTAIezDDhCzqtdOq&Signature=fc0a1D5xOn30EpCD1HhIfzF9dYQ%3D',
-        index: 0,
-        selectIndex: 0,
-        onTapMenu: () {},
-        onTapEdit: () {},
-        onTapOperation: () {},
-        onTapDelete: () {},
-        onTapMenuClose: () {},
-        animation: _animation,
-      ),
-      // body: DeerListView(
-      //     itemCount: _tableData.length,
-      //     onRefresh: _refresh,
-      //     itemBuilder: (_, index) {
-
-      //     })
-    );
-  }
-}
-
-class ProductList {
-  String managerCode;
-  ProductList();
-
-  factory ProductList.fromJson(Map<String, dynamic> response) {
-    ProductList rowData = ProductList();
-    rowData.managerCode = response['managerCode'];
-    return rowData;
+        appBar: MyAppBar(
+            centerTitle: '资产处置',
+            // backgroundColor:Colors.blue,
+            isBack: false),
+        body: DeerListView(
+            itemCount: _tableData.length,
+            onRefresh: _refresh,
+            itemBuilder: (_, index) {
+              return ProductItem(
+                index: index,
+                data: _tableData[index],
+                selectIndex: 0,
+                onTapMenu: () {},
+                onTapEdit: () {},
+                onTapOperation: () {},
+                onTapDelete: () {},
+                onTapMenuClose: () {},
+                animation: _animation,
+              );
+            }));
   }
 }

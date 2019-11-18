@@ -13,6 +13,7 @@ class Gaps {
   static const Widget hGap15 = const SizedBox(width: Dimens.gap_dp15);
   static const Widget hGap16 = const SizedBox(width: Dimens.gap_dp16);
   /// 垂直间隔
+  static const Widget vGap3 = const SizedBox(height: 3.0);
   static const Widget vGap4 = const SizedBox(height: 4.0);
   static const Widget vGap5 = const SizedBox(height: Dimens.gap_dp5);
   static const Widget vGap8 = const SizedBox(height: 8.0);

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstflutter/widgets/load_image.dart';
 import 'package:myfirstflutter/res/resources.dart';
+import '../../data/product.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem(
       {Key key,
-      @required this.img,
+      @required this.data,
       @required this.index,
       @required this.selectIndex,
       @required this.onTapMenu,
@@ -16,7 +17,7 @@ class ProductItem extends StatelessWidget {
       @required this.animation})
       : super(key: key);
 
-  final String img;
+  final ProductList data;
   final int index;
   final int selectIndex;
   final Function onTapMenu;
@@ -44,11 +45,11 @@ class ProductItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       child: Stack(
                         children: <Widget>[
-                          LoadImage(img, width: 132.0, height: 90.0),
+                          LoadImage(data.bannerUrl, width: 132.0, height: 90.0),
                           Positioned(
                             bottom: 0,
                             child: Container(
-                              width: 110.0,
+                              width: 132.0,
                               child: Center(
                                 child: Text(
                                   '已有4人浏览',
@@ -75,16 +76,17 @@ class ProductItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        const Text("山海湾·品质小区 南北通透",
+                        Text(data.houseName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: Dimens.gap_dp16)),
-                        const Text("2室1厅/86.93㎡/南 北/海尔地产·山海湾",
+                        Gaps.vGap3,
+                        Text("2室1厅/86.93㎡/南 北/海尔地产·山海湾",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Color.fromRGBO(128, 134, 149, 1))),
-                        Gaps.vGap5,
+                        Gaps.vGap3,
                         Row(
                           children: <Widget>[
                             Offstage(
@@ -129,28 +131,52 @@ class ProductItem extends StatelessWidget {
                             )
                           ],
                         ),
-                        Gaps.vGap4,
+                        Gaps.vGap3,
                         Row(
                           children: <Widget>[
-                            Text("157万",
-                                style: TextStyle(
-                                    height: 0.2,
-                                    fontSize: Dimens.gap_dp16,
-                                    color: Color.fromRGBO(255, 87, 35, 1))),
-                            Text("成交均价",
-                                style: TextStyle(
-                                    // height: 20,
-                                    color: Color.fromRGBO(128, 134, 149, 1))),
-                            Text("210万",
-                                style: TextStyle(
-                                    fontSize: Dimens.gap_dp16,
-                                    color: Color.fromRGBO(0, 0, 0, 1))),
-                            Text("现价",
-                                style: TextStyle(
-                                    height: 0.5,
-
-                                    // height: 20,
-                                    color: Color.fromRGBO(128, 134, 149, 1)))
+                            Flexible(
+                              child: Row(
+                                children: <Widget>[
+                                  Text("1127万",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                          fontSize: Dimens.gap_dp16,
+                                          color:
+                                              Color.fromRGBO(255, 87, 35, 1))),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 5, top: 3),
+                                    child: Text("成交均价",
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontSize: Dimens.gap_dp12,
+                                            color: Color.fromRGBO(
+                                                128, 134, 149, 1))),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Flexible(
+                              child: Row(
+                                children: <Widget>[
+                                  Text("21123万",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: Dimens.gap_dp16,
+                                          color: Color.fromRGBO(0, 0, 0, 1))),
+                                  Container(
+                                    padding: EdgeInsets.only(left: 5, top: 3),
+                                    child: Text("现价",
+                                        style: TextStyle(
+                                            fontSize: Dimens.gap_dp12,
+                                            color: Color.fromRGBO(
+                                                128, 134, 149, 1))),
+                                  )
+                                ],
+                              ),
+                            ),
                           ],
                         )
                       ],
