@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstflutter/widgets/load_image.dart';
 import 'package:myfirstflutter/res/resources.dart';
-import '../../data/product.dart';
+import '../models/product.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem(

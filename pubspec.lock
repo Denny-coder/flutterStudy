@@ -21,7 +21,7 @@ packages:
       name: cached_network_image
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.3"
+    version: "1.1.2+1"
   charcode:
     dependency: transitive
     description:
@@ -81,11 +81,9 @@ packages:
   fluro:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "15363723607d3be9e03e04d8c50d058f78fa647c"
-      url: "git://github.com/theyakka/fluro.git"
-    source: git
+      name: fluro
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.5.1"
   flutter:
     dependency: "direct main"
@@ -132,6 +130,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.7"
+  oktoast:
+    dependency: "direct main"
+    description:
+      name: oktoast
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.2.0"
   path:
     dependency: transitive
     description:
@@ -160,13 +165,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.2.1"
-  provide:
+  provider:
     dependency: "direct main"
     description:
-      name: provide
+      name: provider
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.2"
+    version: "3.1.0+1"
   quiver:
     dependency: transitive
     description:

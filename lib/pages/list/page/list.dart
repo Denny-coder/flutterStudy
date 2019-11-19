@@ -1,14 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:provide/provide.dart';
-import 'package:dio/dio.dart';
-import '../../provide/login.dart';
-import 'package:myfirstflutter/widgets/app_bar.dart';
-import '../../routers/application.dart';
-import './widget/product_item.dart';
-import 'package:fluro/fluro.dart';
 import 'dart:convert' as JSON;
+import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+import 'package:myfirstflutter/widgets/app_bar.dart';
 import 'package:myfirstflutter/widgets/my_refresh_list.dart';
-import '../data/product.dart';
+import '../widget/product_item.dart';
+import '../models/product.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -17,35 +13,14 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage>
     with SingleTickerProviderStateMixin {
-  TextEditingController _controllerAccount = new TextEditingController();
-  TextEditingController _controllerPassWord = new TextEditingController();
   List<ProductList> _tableData = new List<ProductList>();
-  String _account;
-  String _passWord;
+  int _total;
   Animation<double> _animation;
   AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controllerAccount.addListener(() {
-      setState(() {
-        _account = _controllerAccount.value.text;
-      });
-    });
-    _controllerPassWord.addListener(() {
-      setState(() {
-        _passWord = _controllerPassWord.value.text;
-      });
-    });
-    setState(() {
-      _controllerAccount.value =
-          _controllerAccount.value.copyWith(text: 'admin');
-      _controllerPassWord.value =
-          _controllerAccount.value.copyWith(text: 'zx123456');
-      _account = 'admin';
-      _passWord = 'zx123456';
-    });
     // 初始化动画控制
     _controller = new AnimationController(
         duration: const Duration(milliseconds: 450), vsync: this);
@@ -56,32 +31,10 @@ class _ListPageState extends State<ListPage>
     _refresh();
   }
 
-  void login() async {
-    print(_account);
-    print(_passWord);
-    try {
-      Response response;
-      Dio dio = new Dio();
-      response = await dio.get("http://student.bestzhengke.com/api/user/login",
-          queryParameters: {'account': _account, 'pwd': _passWord});
-      print(response.data['code']);
-      if (response.data['code'] == 200) {
-        print(response.data['data']['token']);
-        print(response.data['data']['l_id']);
-        Provide.value<Login>(context)
-            .incrementToken(response.data['data']['token']);
-        Provide.value<Login>(context).incrementCookie(
-            'L_ID=${response.data['data']['token']}; Admin-Token=${response.data['data']['token']}');
-        Application.router.navigateTo(context, "/cart?id=cart",
-            transition: TransitionType.fadeIn);
-      }
-    } catch (e) {
-      return print(e);
-    }
-  }
 
   Future<Null> _refresh() async {
     List<ProductList> productDataList = new List();
+    print('_refresh');
     try {
       Response response;
       Dio dio = new Dio();
@@ -102,6 +55,7 @@ class _ListPageState extends State<ListPage>
         ),
       );
       var data = JSON.jsonDecode(response.toString());
+      print(data);
 
       if (data['success']) {
         for (dynamic data in data['data']['list']) {
@@ -112,6 +66,7 @@ class _ListPageState extends State<ListPage>
         print(productDataList);
         print('----------response---------------');
         setState(() {
+          _total = data['data']['total'];
           _tableData = productDataList;
         });
       }
@@ -130,6 +85,8 @@ class _ListPageState extends State<ListPage>
         body: DeerListView(
             itemCount: _tableData.length,
             onRefresh: _refresh,
+            total: _total,
+            loadMore: _refresh,
             itemBuilder: (_, index) {
               return ProductItem(
                 index: index,
