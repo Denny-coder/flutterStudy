@@ -8,6 +8,9 @@ class ProductList {
   String floorArea;
   String driection;
   String village;
+  int interestCount;
+  String processStatus;
+  List<String> tags;
   ProductList();
 
   factory ProductList.fromJson(Map<String, dynamic> response) {
@@ -21,6 +24,11 @@ class ProductList {
     rowData.floorArea = response['floorArea']; // 面积
     rowData.driection = response['driection']; // 朝向
     rowData.village = response['village']; // 小区
+    rowData.processStatus = response['processStatus']; // 99为已售出
+    rowData.interestCount = response['interestCount']; // 浏览人数
+    rowData.tags = response['tags'] == null || response['tags'] == ''
+        ? List()
+        : response['tags'].split(','); // 标签
     return rowData;
   }
 }

@@ -3,11 +3,12 @@ import 'package:myfirstflutter/widgets/load_image.dart';
 import 'package:myfirstflutter/res/resources.dart';
 import '../models/product.dart';
 
-class ProductItem extends StatelessWidget {
-  const ProductItem(
+class ProductItem extends StatefulWidget {
+  ProductItem(
       {Key key,
       @required this.data,
       @required this.index,
+      this.houseType,
       @required this.selectIndex,
       @required this.onTapMenu,
       @required this.onTapEdit,
@@ -19,6 +20,7 @@ class ProductItem extends StatelessWidget {
 
   final ProductList data;
   final int index;
+  final String houseType;
   final int selectIndex;
   final Function onTapMenu;
   final Function onTapEdit;
@@ -26,6 +28,34 @@ class ProductItem extends StatelessWidget {
   final Function onTapDelete;
   final Function onTapMenuClose;
   final Animation<double> animation;
+  @override
+  _ProductItem createState() => _ProductItem();
+}
+
+class _ProductItem extends State<ProductItem> {
+  Function tagsList = (tagsOption) {
+    List<Widget> tags = List();
+    for (var item in tagsOption) {
+      tags.add(Offstage(
+        // 类似于gone
+        offstage: false,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          margin: const EdgeInsets.only(right: 4.0),
+          decoration: BoxDecoration(
+            color: Colors.blue,
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+          height: 16.0,
+          child: Text(
+            item,
+            style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
+          ),
+        ),
+      ));
+    }
+    return tags;
+  };
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -45,14 +75,25 @@ class ProductItem extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       child: Stack(
                         children: <Widget>[
-                          LoadImage(data.bannerUrl, width: 132.0, height: 90.0),
+                          // 图片变灰
+                          widget.data.processStatus == '99'
+                              ? ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Colors.grey,
+                                    BlendMode.saturation,
+                                  ),
+                                  child: LoadImage(widget.data.bannerUrl,
+                                      width: 132.0, height: 90.0),
+                                )
+                              : LoadImage(widget.data.bannerUrl,
+                                  width: 132.0, height: 90.0),
                           Positioned(
                             bottom: 0,
                             child: Container(
                               width: 132.0,
                               child: Center(
                                 child: Text(
-                                  '已有4人浏览',
+                                  '已有${widget.data.interestCount}人浏览',
                                   style: TextStyle(
                                       fontSize: Dimens.font_sp10,
                                       color: Color.fromRGBO(255, 255, 255, 1)),
@@ -76,109 +117,71 @@ class ProductItem extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(data.houseName,
+                        Text(widget.data.houseName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(fontSize: Dimens.gap_dp16)),
                         Gaps.vGap3,
-                        Text("2室1厅/86.93㎡/南 北/海尔地产·山海湾",
+                        Text(
+                            "${widget.data.houseType}/${widget.data.floorArea}㎡/${widget.data.driection}/${widget.data.village}",
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 color: Color.fromRGBO(128, 134, 149, 1))),
                         Gaps.vGap3,
                         Row(
-                          children: <Widget>[
-                            Offstage(
-                              // 类似于gone
-                              offstage: index % 3 != 0,
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                margin: const EdgeInsets.only(right: 4.0),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).errorColor,
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
-                                height: 16.0,
-                                child: const Text(
-                                  "立减",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: Dimens.font_sp10),
-                                ),
-                              ),
-                            ),
-                            Opacity(
-                              // 修改透明度实现隐藏，类似于invisible
-                              opacity: index % 2 != 0 ? 0.0 : 1.0,
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
-                                  borderRadius: BorderRadius.circular(2.0),
-                                ),
-                                height: 16.0,
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  "社区币抵扣",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: Dimens.font_sp10),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
+                            children: widget.data.tags.length != 0
+                                ? tagsList(widget.data.tags)
+                                : [Gaps.vGap15]),
                         Gaps.vGap3,
-                        Row(
-                          children: <Widget>[
-                            Flexible(
-                              child: Row(
+                        widget.data.processStatus == '99'
+                            ? Text('已售出')
+                            : Row(
                                 children: <Widget>[
-                                  Text("1127万",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                          fontSize: Dimens.gap_dp16,
-                                          color:
-                                              Color.fromRGBO(255, 87, 35, 1))),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 5, top: 3),
-                                    child: Text("成交均价",
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontSize: Dimens.gap_dp12,
-                                            color: Color.fromRGBO(
-                                                128, 134, 149, 1))),
-                                  )
+                                  Row(
+                                    children: <Widget>[
+                                      Text("${widget.data.sellPrice}万",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                              fontSize: Dimens.gap_dp16,
+                                              color: Color.fromRGBO(
+                                                  255, 87, 35, 1))),
+                                      Container(
+                                        padding: EdgeInsets.only(
+                                            left: 5, top: 3, right: 5),
+                                        child: Text("成交均价",
+                                            textAlign: TextAlign.end,
+                                            style: TextStyle(
+                                                fontSize: Dimens.gap_dp12,
+                                                color: Color.fromRGBO(
+                                                    128, 134, 149, 1))),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Text("${widget.data.nowPrice}万",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: Dimens.gap_dp16,
+                                              color:
+                                                  Color.fromRGBO(0, 0, 0, 1))),
+                                      Container(
+                                        padding:
+                                            EdgeInsets.only(left: 5, top: 3),
+                                        child: Text("现价",
+                                            style: TextStyle(
+                                                fontSize: Dimens.gap_dp12,
+                                                color: Color.fromRGBO(
+                                                    128, 134, 149, 1))),
+                                      )
+                                    ],
+                                  ),
                                 ],
-                              ),
-                            ),
-                            Flexible(
-                              child: Row(
-                                children: <Widget>[
-                                  Text("21123万",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: Dimens.gap_dp16,
-                                          color: Color.fromRGBO(0, 0, 0, 1))),
-                                  Container(
-                                    padding: EdgeInsets.only(left: 5, top: 3),
-                                    child: Text("现价",
-                                        style: TextStyle(
-                                            fontSize: Dimens.gap_dp12,
-                                            color: Color.fromRGBO(
-                                                128, 134, 149, 1))),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
+                              )
                       ],
                     ),
                   ),
@@ -187,6 +190,10 @@ class ProductItem extends StatelessWidget {
             ),
           ),
         ),
+        // Positioned(
+        //   right: 10,
+        //   child: ,
+        // )
       ],
     );
   }

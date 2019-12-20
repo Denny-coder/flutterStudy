@@ -1,10 +1,16 @@
 import 'dart:convert' as JSON;
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
+import 'package:myfirstflutter/util/toast.dart';
 import 'package:myfirstflutter/widgets/app_bar.dart';
 import 'package:myfirstflutter/widgets/my_refresh_list.dart';
+import 'package:myfirstflutter/widgets/state_layout.dart';
+import 'package:myfirstflutter/net/dio_util.dart';
+import 'package:myfirstflutter/provider/basic_data_provider.dart';
 import '../widget/product_item.dart';
 import '../models/product.dart';
+import '../models/map.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -17,7 +23,11 @@ class _ListPageState extends State<ListPage>
   int _total;
   Animation<double> _animation;
   AnimationController _controller;
-
+  int _page;
+  BasicDataProvider basicDataProvider = BasicDataProvider();
+  Map<String, String> houseTagsList = new Map(); // 标签
+  Map<String, String> houseTypeList = new Map(); // 户型
+  Map<String, String> houseDirectionList = new Map(); // 朝向
   @override
   void initState() {
     super.initState();
@@ -28,50 +38,100 @@ class _ListPageState extends State<ListPage>
     CurvedAnimation _curvedAnimation =
         CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
     _animation = new Tween(begin: 0.0, end: 1.1).animate(_curvedAnimation);
-    _refresh();
-  }
-
-
-  Future<Null> _refresh() async {
-    List<ProductList> productDataList = new List();
-    print('_refresh');
-    try {
-      Response response;
-      Dio dio = new Dio();
-      response = await dio.post(
-        "https://test.aiwoke.com.cn/houseinfoController/getListPage?token=crm:wecat:token0000Fu&type=1",
-        data: {
-          "showStatus": 1,
-          "rows": 10,
-          "page": 1,
-          "houseName": "",
-          "type": ""
-        },
-        options: Options(
-          headers: {
-            'token': 'crm:wecat:token0000Fu',
-            'content-type': 'application/json'
-          },
-        ),
-      );
-      var data = JSON.jsonDecode(response.toString());
-      print(data);
-
-      if (data['success']) {
-        for (dynamic data in data['data']['list']) {
-          ProductList productData = ProductList.fromJson(data);
-          productDataList.add(productData);
-        }
-        print('----------response---------------');
-        print(productDataList);
-        print('----------response---------------');
+    setState(() {
+      _total = 0;
+      _page = 1;
+    });
+    basicDataProvider.setbasicData((basicData) {
+      for (dynamic data in basicData['HOUSE_DIRECTION']) {
+        HouseDirection houseDirection = HouseDirection.fromJson(data);
         setState(() {
-          _total = data['data']['total'];
-          _tableData = productDataList;
+          houseDirectionList[houseDirection.code] = houseDirection.codeName;
         });
       }
-    } catch (e) {
-      return print(e);
+      for (dynamic data in basicData['HOUSE_TYPE']) {
+        HouseType houseType = HouseType.fromJson(data);
+        setState(() {
+          houseTypeList[houseType.code] = houseType.codeName;
+        });
+      }
+      for (dynamic data in basicData['HOUSE_TAGS']) {
+        HouseTags houseTags = HouseTags.fromJson(data);
+        setState(() {
+          houseTagsList[houseTags.code] = houseTags.codeName;
+        });
+      }
+      _refresh();
+    });
+  }
+
+  Future _refresh() async {
+    setState(() {
+      _page = 1;
+    });
+    await Future.delayed(Duration(seconds: 0), () {
+      this._commonLoad(1);
+    });
+  }
+
+  Future _loadMore() async {
+    setState(() {
+      _page = _page + 1;
+    });
+    await Future.delayed(Duration(seconds: 0), () {
+      this._commonLoad(0);
+    });
+  }
+
+  Future _commonLoad(int type) async {
+    List<ProductList> productDataList = new List();
+    try {
+      await DioUtils.instance.requestNetwork(Method.post,
+          "houseinfoController/getListPage?token=crm:wecat:token0000Fu&type=1",
+          isList: true,
+          params: {
+            "showStatus": 1,
+            "rows": 10,
+            "page": _page,
+            "houseName": "",
+            "type": ""
+          }, onSuccessList: (data) {
+        if (data['success']) {
+          for (dynamic data in data['data']['list']) {
+            ProductList productData = ProductList.fromJson(data);
+            productData.houseType = houseTypeList[productData.houseType];
+            productData.driection = houseDirectionList[productData.driection];
+            productData.tags =
+                productData.tags.map((f) => houseTagsList[f]).toList();
+            productDataList.add(productData);
+          }
+          if (type == 1) {
+            setState(() {
+              _total = data['data']['total'];
+              _tableData = productDataList;
+            });
+          } else {
+            setState(() {
+              _tableData.addAll(productDataList);
+            });
+          }
+        } else {
+          setState(() {
+            _total = 0;
+            _tableData = new List<ProductList>();
+          });
+        }
+      });
+    } on DioError catch (e) {
+      if (e.response != null) {
+        setState(() {
+          _total = 0;
+          _tableData = new List<ProductList>();
+        });
+        Toast.show("暂无权限");
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+      }
     }
   }
 
@@ -83,10 +143,12 @@ class _ListPageState extends State<ListPage>
             // backgroundColor:Colors.blue,
             isBack: false),
         body: DeerListView(
+            stateType: StateType.loading,
             itemCount: _tableData.length,
             onRefresh: _refresh,
             total: _total,
-            loadMore: _refresh,
+            hasMore: _tableData.length < _total,
+            loadMore: _loadMore,
             itemBuilder: (_, index) {
               return ProductItem(
                 index: index,

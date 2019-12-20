@@ -75,8 +75,8 @@ class _DeerListViewState extends State<DeerListView> {
                         return widget.itemBuilder(context, index);
                       } else {
                         // print('widget.itemCount');
-                        // print(widget.itemCount);
-                        // print(widget.total);
+                        print(widget.itemCount);
+                        print(widget.total);
                         // print(widget.itemCount >= widget.total);
                         return index < widget.itemCount
                             ? widget.itemBuilder(context, index)
@@ -106,7 +106,6 @@ class _DeerListViewState extends State<DeerListView> {
 
 class MoreWidget extends StatelessWidget {
   const MoreWidget(this.itemCount, this.hasMore, this.pageSize, this.total);
-
   final int itemCount;
   final bool hasMore;
   final int pageSize;
@@ -117,6 +116,7 @@ class MoreWidget extends StatelessWidget {
     final style = ThemeUtils.isDark(context)
         ? TextStyles.textGray14
         : const TextStyle(color: Color(0x8A000000));
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
