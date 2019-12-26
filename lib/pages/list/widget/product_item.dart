@@ -35,7 +35,10 @@ class ProductItem extends StatefulWidget {
 class _ProductItem extends State<ProductItem> {
   Function tagsList = (tagsOption) {
     List<Widget> tags = List();
-    for (var item in tagsOption) {
+    int len = tagsOption.length;
+    print('--------len-----------');
+    print(len);
+    for (var i = 0; i < len; i++) {
       tags.add(Offstage(
         // 类似于gone
         offstage: false,
@@ -43,13 +46,17 @@ class _ProductItem extends State<ProductItem> {
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
           margin: const EdgeInsets.only(right: 4.0),
           decoration: BoxDecoration(
-            color: Colors.blue,
+            color: i == 0
+                ? Color.fromRGBO(254, 194, 43, 1)
+                : Color.fromRGBO(225, 231, 237, 1),
             borderRadius: BorderRadius.circular(2.0),
           ),
           height: 16.0,
           child: Text(
-            item,
-            style: TextStyle(color: Colors.white, fontSize: Dimens.font_sp10),
+            tagsOption[i],
+            style: TextStyle(
+                color: i == 0 ? Colors.white : Color.fromRGBO(107, 127, 146, 1),
+                fontSize: Dimens.font_sp10),
           ),
         ),
       ));
@@ -83,10 +90,12 @@ class _ProductItem extends State<ProductItem> {
                                     BlendMode.saturation,
                                   ),
                                   child: LoadImage(widget.data.bannerUrl,
-                                      width: 132.0, height: 90.0),
+                                      fit: BoxFit.fill,
+                                      width: 132.0,
+                                      height: 90.0),
                                 )
                               : LoadImage(widget.data.bannerUrl,
-                                  width: 132.0, height: 90.0),
+                                  fit: BoxFit.fill, width: 132.0, height: 90.0),
                           Positioned(
                             bottom: 0,
                             child: Container(
@@ -190,10 +199,10 @@ class _ProductItem extends State<ProductItem> {
             ),
           ),
         ),
-        // Positioned(
-        //   right: 10,
-        //   child: ,
-        // )
+        Positioned(
+          right: 10,
+          child: Icon(IconData(0xe6c3, fontFamily: 'iconfont'), size: 50),
+        )
       ],
     );
   }

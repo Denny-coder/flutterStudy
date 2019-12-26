@@ -27,7 +27,7 @@ class DioUtils {
         'token': 'crm:wecat:token0000Fu',
         'content-type': 'application/json'
       },
-      baseUrl: "https://test.aiwoke.com.cn/",
+      baseUrl: "https://api.aiwoke.com.cn/",
     );
     _dio = Dio(options);
   }
@@ -76,7 +76,9 @@ class DioUtils {
             options: options,
             cancelToken: cancelToken)
         .then((result) {
-      if (result['status'] == 0) {
+      print('----------result-------------');
+      print(result);
+      if (result['status'] == 0 || result['status'] == '0') {
         if (isList) {
           if (onSuccessList != null) {
             onSuccessList(result);
