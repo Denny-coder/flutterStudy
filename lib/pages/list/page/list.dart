@@ -1,16 +1,16 @@
-import 'dart:convert' as JSON;
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:provider/provider.dart';
 import 'package:myfirstflutter/util/toast.dart';
 import 'package:myfirstflutter/widgets/app_bar.dart';
 import 'package:myfirstflutter/widgets/my_refresh_list.dart';
 import 'package:myfirstflutter/widgets/state_layout.dart';
 import 'package:myfirstflutter/net/dio_util.dart';
 import 'package:myfirstflutter/provider/basic_data_provider.dart';
+import 'package:myfirstflutter/routers/fluro_navigator.dart';
 import '../widget/product_item.dart';
-import '../models/product.dart';
-import '../models/map.dart';
+import '../models/product_model.dart';
+import '../models/map_model.dart';
+import '../../info/info_router.dart';
 
 class ListPage extends StatefulWidget {
   @override
@@ -150,16 +150,23 @@ class _ListPageState extends State<ListPage>
             hasMore: _tableData.length < _total,
             loadMore: _loadMore,
             itemBuilder: (_, index) {
-              return ProductItem(
-                index: index,
-                data: _tableData[index],
-                selectIndex: 0,
-                onTapMenu: () {},
-                onTapEdit: () {},
-                onTapOperation: () {},
-                onTapDelete: () {},
-                onTapMenuClose: () {},
-                animation: _animation,
+              return GestureDetector(
+                child: ProductItem(
+                  index: index,
+                  data: _tableData[index],
+                  selectIndex: 0,
+                  onTapMenu: () {},
+                  onTapEdit: () {},
+                  onTapOperation: () {},
+                  onTapDelete: () {},
+                  onTapMenuClose: () {},
+                  animation: _animation,
+                ),
+                onTap: () {
+                  NavigatorUtils.push(context,
+                      '${InfoRouter.houseInfoPage}?id=${_tableData[index].id}&status=${_tableData[index].processStatus}');
+                  print(_tableData[index].houseName);
+                },
               );
             }));
   }

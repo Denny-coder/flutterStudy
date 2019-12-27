@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myfirstflutter/widgets/load_image.dart';
 import 'package:myfirstflutter/res/resources.dart';
-import '../models/product.dart';
+import '../models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
   ProductItem(
@@ -36,8 +36,6 @@ class _ProductItem extends State<ProductItem> {
   Function tagsList = (tagsOption) {
     List<Widget> tags = List();
     int len = tagsOption.length;
-    print('--------len-----------');
-    print(len);
     for (var i = 0; i < len; i++) {
       tags.add(Offstage(
         // 类似于gone
@@ -199,10 +197,15 @@ class _ProductItem extends State<ProductItem> {
             ),
           ),
         ),
-        Positioned(
-          right: 10,
-          child: Icon(IconData(0xe6c3, fontFamily: 'iconfont'), size: 50),
-        )
+        // 图片变灰
+        widget.data.processStatus == '99'
+            ? Positioned(
+                top: 10,
+                right: 10,
+                child: Icon(IconData(0xe6c3, fontFamily: 'iconfont'),
+                    size: 90, color: Color.fromRGBO(0, 0, 0, 0.6)),
+              )
+            : SizedBox()
       ],
     );
   }

@@ -76,8 +76,6 @@ class DioUtils {
             options: options,
             cancelToken: cancelToken)
         .then((result) {
-      print('----------result-------------');
-      print(result);
       if (result['status'] == 0 || result['status'] == '0') {
         if (isList) {
           if (onSuccessList != null) {

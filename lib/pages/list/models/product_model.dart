@@ -10,6 +10,7 @@ class ProductList {
   String village;
   int interestCount;
   String processStatus;
+  int id;
   List<String> tags;
   ProductList();
 
@@ -25,6 +26,7 @@ class ProductList {
     rowData.driection = response['driection']; // 朝向
     rowData.village = response['village']; // 小区
     rowData.processStatus = response['processStatus']; // 99为已售出
+    rowData.id = response['id']; // 小区
     rowData.interestCount = response['interestCount']; // 浏览人数
     rowData.tags = response['tags'] == null || response['tags'] == ''
         ? List()
