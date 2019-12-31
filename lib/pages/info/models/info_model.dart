@@ -18,7 +18,7 @@ class InfoData {
   String houseUse;
   Null transaction;
   String village;
-  Null areaInside;
+  dynamic areaInside;
   String allAge;
   String banner;
   Null bannerUrl;
