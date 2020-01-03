@@ -3,9 +3,16 @@ import 'package:fluro/fluro.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:myfirstflutter/routers/application.dart';
 import 'package:myfirstflutter/routers/routers.dart';
+import 'package:amap_map_fluttify/amap_map_fluttify.dart';
 
-void main() {
+Future<void> main() async {
   runApp(MyApp());
+
+  await enableFluttifyLog(true);
+  await AmapService.init(
+    iosKey: '7a04506d15fdb7585707f7091d715ef4',
+    androidKey: '7c9daac55e90a439f7b4304b465297fa',
+  );
 }
 
 class MyApp extends StatelessWidget {

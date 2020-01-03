@@ -7,6 +7,7 @@ import 'package:myfirstflutter/pages/list/models/map_model.dart';
 import 'package:myfirstflutter/pages/info/models/info_model.dart';
 import 'package:myfirstflutter/provider/basic_data_provider.dart';
 import 'package:myfirstflutter/widgets/swiper/swiper.dart';
+import 'package:amap_map_fluttify/amap_map_fluttify.dart';
 
 class HouseInfo extends StatefulWidget {
   const HouseInfo({Key key, this.status, this.id}) : super(key: key);
@@ -23,7 +24,7 @@ class _HouseInfoState extends State<HouseInfo> {
   Map<String, String> houseFloorList = new Map(); // 楼层
   Map<String, String> houseFitUpList = new Map(); // 装修
   Map<String, String> houseDirectionList = new Map(); // 朝向
-
+  AmapController _controller;
   List<String> images = [
     'https://img.aiwoke.com.cn/caifu/crm/house_info/20191105175411_313725.jpg?Expires=1893036827&OSSAccessKeyId=LTAIezDDhCzqtdOq&Signature=CADjmgpLmbq5UWHEad1bZP%2BoxY8%3D',
     'https://img.aiwoke.com.cn/caifu/crm/house_info/20191105175418_165688.jpg?Expires=1893036827&OSSAccessKeyId=LTAIezDDhCzqtdOq&Signature=p9lhNavLFGcb%2FIDhEOe0Cnes9ag%3D',
@@ -96,6 +97,7 @@ class _HouseInfoState extends State<HouseInfo> {
       _getInfo();
     });
   }
+
   Future _getInfo() async {
     try {
       await DioUtils.instance.requestNetwork(Method.post,
@@ -118,6 +120,7 @@ class _HouseInfoState extends State<HouseInfo> {
       }
     }
   }
+
   final TextStyle commonColor = TextStyle(
     color: Color.fromRGBO(255, 87, 35, 1),
   );
@@ -146,7 +149,7 @@ class _HouseInfoState extends State<HouseInfo> {
             children: <Widget>[
               Swiper(images: images),
               Container(
-                margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
                 constraints: BoxConstraints(
                     minWidth: double.infinity, maxWidth: double.infinity),
                 child: Column(
@@ -338,7 +341,24 @@ class _HouseInfoState extends State<HouseInfo> {
                           ),
                         ],
                       ),
-                    )
+                    ),
+                    Container(
+                      constraints: BoxConstraints.tightFor(height: 200.0),
+                      // padding: EdgeInsets.only(bottom: 10.0),
+                      child: AmapView(
+                        showZoomControl: false,
+                        maskDelay: Duration(milliseconds: 500),
+                        onMapCreated: (controller) async {
+                          _controller = controller;
+                          // if (await requestPermission()) {
+//                  await controller.showMyLocation(true);
+//                  final latLng = await _controller?.getLocation(
+//                      delay: Duration(seconds: 1));
+//                  toast('当前经纬度: ${latLng.toString()}');
+                          // }
+                        },
+                      ),
+                    ),
                   ],
                 ),
               )
@@ -377,7 +397,7 @@ class _HouseInfoState extends State<HouseInfo> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Container(
-            constraints: BoxConstraints.tightFor(width: 175.0, height: 30),
+            constraints: BoxConstraints.tightFor(width: 160.0, height: 30),
             child: Row(
               children: <Widget>[
                 Text('$labelLeft:',
@@ -385,7 +405,7 @@ class _HouseInfoState extends State<HouseInfo> {
                       color: Color.fromRGBO(158, 167, 180, 1),
                     )),
                 Container(
-                  constraints: BoxConstraints(maxWidth: 120.0),
+                  constraints: BoxConstraints(maxWidth: 110.0),
                   child: Text(
                     '$valueLeft',
                     style: TextStyle(
@@ -406,7 +426,7 @@ class _HouseInfoState extends State<HouseInfo> {
                       color: Color.fromRGBO(158, 167, 180, 1),
                     )),
                 Container(
-                  constraints: BoxConstraints(maxWidth: 120.0),
+                  constraints: BoxConstraints(maxWidth: 110.0),
                   child: Text(
                     '$valueRigth',
                     style: TextStyle(
