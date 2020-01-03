@@ -559,11 +559,11 @@ class _StepperState extends State<MyStepper> with TickerProviderStateMixin {
         AnimatedCrossFade(
           firstChild: Container(height: 0.0),
           secondChild: Container(
-            margin: const EdgeInsetsDirectional.only(
-              start: 60.0,
-              end: 24.0,
-              bottom: 24.0,
-            ),
+            // margin: const EdgeInsetsDirectional.only(
+            //   start: 60.0,
+            //   end: 24.0,
+            //   bottom: 24.0,
+            // ),
             child: Column(
               children: <Widget>[
                 widget.steps[index].content,

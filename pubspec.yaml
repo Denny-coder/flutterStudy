@@ -58,6 +58,7 @@ flutter:
     - assets/data/
     - assets/images/
     - assets/images/home/
+    - assets/images/my/
     - assets/images/bar/
     - assets/images/store/
     - assets/images/state/

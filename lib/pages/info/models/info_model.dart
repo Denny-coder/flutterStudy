@@ -29,7 +29,7 @@ class InfoData {
   String lonLat;
   String debtInfo;
   String nowPrice;
-  
+
   InfoData(
     this.id,
     this.type,
@@ -124,6 +124,58 @@ class InfoData {
     data['lonLat'] = this.lonLat;
     data['debtInfo'] = this.debtInfo;
     data['nowPrice'] = this.nowPrice;
+    return data;
+  }
+}
+
+// 购置流程
+class HouseBuyStatus {
+  String id;
+  String code;
+  String codeName;
+  HouseBuyStatus({
+    this.id,
+    this.code,
+    this.codeName,
+  });
+  HouseBuyStatus.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    code = json['code'];
+    codeName = json['codeName'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['code'] = this.code;
+    data['codeName'] = this.codeName;
+
+    return data;
+  }
+}
+
+// 坐标
+class AmapLatLng {
+  String status;
+  String info;
+  String infocode;
+  String locations;
+
+  AmapLatLng({this.status, this.info, this.infocode, this.locations});
+
+  AmapLatLng.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    info = json['info'];
+    infocode = json['infocode'];
+    locations = json['locations'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['info'] = this.info;
+    data['infocode'] = this.infocode;
+    data['locations'] = this.locations;
     return data;
   }
 }
